@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace PhoneBook
 {
     public class Contact
@@ -12,8 +13,6 @@ namespace PhoneBook
             FirstName = firstName;
             LastName = lastName;
             PhoneNumber = phoneNumber;
-        }
-
-        
+        }        
     }
 }
