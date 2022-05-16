@@ -14,14 +14,14 @@ namespace PhoneBook
 
         public void GetInitialContactsList()
         {
-            Contacts.Add(new Contact("Henry", "Clark", 12345));
-            Contacts.Add(new Contact("Lisa", "Mole", 23456));
-            Contacts.Add(new Contact("Ben", "Robert", 34567));
-            Contacts.Add(new Contact("Mike", "Row", 45678));
-            Contacts.Add(new Contact("Wiliam", "Brown", 56789));
-            Contacts.Add(new Contact("Robert", "Brown", 34234));
-            Contacts.Add(new Contact("Bob", "Brown", 23456));
-            Contacts.Add(new Contact("Mandy", "Grow", 12356));
+            Contacts.Add(new Contact("Henry", "Clark", 123456789));
+            Contacts.Add(new Contact("Lisa", "Mole", 234567890));
+            Contacts.Add(new Contact("Ben", "Robert", 345678901));
+            Contacts.Add(new Contact("Mike", "Row", 456789012));
+            Contacts.Add(new Contact("Wiliam", "Brown", 567890123));
+            Contacts.Add(new Contact("Robert", "Brown", 123424567));
+            Contacts.Add(new Contact("Bob", "Brown", 837475829));
+            Contacts.Add(new Contact("Mandy", "Grow", 937482398));
         }
 
         private void DisplayContactDetails(Contact contact)
@@ -102,6 +102,22 @@ namespace PhoneBook
             else
             {
                 return false;
+            }
+        }
+
+        public void DeleteContactBasedOnPhoneNumber(int phoneNumber)
+        {
+            if (PhoneNumberExistOnList(phoneNumber))
+            {
+                Contact contact = Contacts.Find(x => x.PhoneNumber == phoneNumber);
+
+                Contacts.Remove(contact);
+
+                Console.WriteLine($"\nContact with phone number {phoneNumber} deleted...");
+            }
+            else
+            {
+                Console.WriteLine($"\nPhone number: {phoneNumber} not exist on this list...");
             }
         }
     }
