@@ -9,10 +9,10 @@ namespace PhoneBook
 
         public PhoneBook()
         {
-            GetInitialContactsList();
+            SetInitialContactsList();
         }
 
-        public void GetInitialContactsList()
+        public void SetInitialContactsList()
         {
             Contacts.Add(new Contact("Henry", "Clark", 123456789));
             Contacts.Add(new Contact("Lisa", "Mole", 234567890));
@@ -43,30 +43,30 @@ namespace PhoneBook
 
         public void AddContact(string firstName, string lastName, int phoneNumber)
         {
-            if(!PhoneNumberExistOnList(phoneNumber))
-            {
-                Contacts.Add(new Contact(firstName, lastName, phoneNumber));
-
-                Console.WriteLine($"\nContact {firstName} {lastName} with phone number: {phoneNumber} added to list...");
-            }
-            else
+            if (PhoneNumberExistOnList(phoneNumber))
             {
                 Console.WriteLine($"\nPhone number: {phoneNumber} already exist in phone book and can't be added...");
+
+                return;
             }
+
+            Contacts.Add(new Contact(firstName, lastName, phoneNumber));
+
+            Console.WriteLine($"\nContact {firstName} {lastName} with phone number: {phoneNumber} added to list...");
         }
 
         public void GetPersonByNumber(int phoneNumber)
         {
-            if (PhoneNumberExistOnList(phoneNumber))
-            {
-                Contact contact = Contacts.Find(x => x.PhoneNumber == phoneNumber);
-
-                Console.WriteLine($"\nOwner of this phone number {contact.PhoneNumber} is {contact.FirstName} {contact.LastName}");
-            }
-            else
+            if (!PhoneNumberExistOnList(phoneNumber))
             {
                 Console.WriteLine($"\nPhone number: {phoneNumber} not exist on this list...");
+
+                return;
             }
+
+            Contact contact = Contacts.Find(x => x.PhoneNumber == phoneNumber);
+
+            Console.WriteLine($"\nOwner of this phone number {contact.PhoneNumber} is {contact.FirstName} {contact.LastName}");
         }
 
         private bool PhoneNumberExistOnList(int phoneNumber)
@@ -76,49 +76,60 @@ namespace PhoneBook
 
         public void GetContactsByLastName(string searchPhrase)
         {
-            List<Contact> results = Contacts.FindAll(x => FindLastName(x, searchPhrase));
+            List<Contact> contacts = Contacts.FindAll(x => FindLastName(x, searchPhrase));
 
-            if (results.Count > 0)
-            {
-                Console.WriteLine($"\nFound records contains '{searchPhrase}' in last name:");
-
-                foreach(Contact contact in results)
-                {
-                    DisplayContactDetails(contact);
-                }
-            }
-            else
+            if(contacts.Count == 0)
             {
                 Console.WriteLine($"\nContact contains '{searchPhrase}' in last name not exist...");
+
+                return;
+            }
+
+            Console.WriteLine($"\nFound records contains '{searchPhrase}' in last name:");
+
+            foreach(Contact contact in contacts)
+            {
+                DisplayContactDetails(contact);
             }
         }
 
-        private static bool FindLastName(Contact contact, string lastName)
+        private static bool FindLastName(Contact contact, string searchPhrase)
         {
-            if (contact.LastName.Contains(lastName))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return contact.LastName.Contains(searchPhrase);
         }
 
         public void DeleteContactBasedOnPhoneNumber(int phoneNumber)
         {
-            if (PhoneNumberExistOnList(phoneNumber))
-            {
-                Contact contact = Contacts.Find(x => x.PhoneNumber == phoneNumber);
-
-                Contacts.Remove(contact);
-
-                Console.WriteLine($"\nContact with phone number {phoneNumber} deleted...");
-            }
-            else
+            if (!PhoneNumberExistOnList(phoneNumber))
             {
                 Console.WriteLine($"\nPhone number: {phoneNumber} not exist on this list...");
+
+                return;
             }
+
+            Contact contact = Contacts.Find(x => x.PhoneNumber == phoneNumber);
+
+            Contacts.Remove(contact);
+
+            Console.WriteLine($"\nContact with phone number {phoneNumber} deleted...");
+
+        }
+
+        public bool CorrectPhoneNumber(int phoneNumber)
+        {
+            if (phoneNumber == 0)
+            {
+                Console.WriteLine("Phone number need to be a number higher or equal 100 000 000 and lower or equal to 999 999 999...");
+                return false;
+            }
+
+            if (phoneNumber < 100000000 || phoneNumber > 999999999)
+            {
+                Console.WriteLine("Phone number must be between 100 000 000 and 999 999 999");
+                return false;
+            }
+
+            return true;
         }
     }
 }

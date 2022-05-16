@@ -13,6 +13,6 @@ namespace PhoneBook
             FirstName = firstName;
             LastName = lastName;
             PhoneNumber = phoneNumber;
-        }        
+        }
     }
 }

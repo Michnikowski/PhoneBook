@@ -59,28 +59,19 @@ namespace PhoneBook
 
                         int.TryParse(phoneNumberString, out phoneNumber);
 
-                        if (!CorrectPhoneNumber(phoneNumber))
-                        {
-                            break;
-                        }
+                        if (!phoneBook.CorrectPhoneNumber(phoneNumber)) break;                        
 
                         Console.WriteLine("Insert first name: ");
                         firstName = Console.ReadLine();
 
-                        if(firstName.Length < 4)
-                        {
-                            Console.WriteLine("First name need to be longer than 3 characters...");
-                            break;
-                        }
-
                         Console.WriteLine("Insert last name: ");
                         lastName = Console.ReadLine();
 
-                        if (lastName.Length < 4)
+                        if (firstName.Length < 4 || lastName.Length < 4)
                         {
-                            Console.WriteLine("Last name need to be longer than 3 characters...");
+                            Console.WriteLine("First name and last name need to be longer than 3 characters...");
                             break;
-                        }
+                        }                     
 
                         phoneBook.AddContact(firstName, lastName, phoneNumber);
 
@@ -94,10 +85,7 @@ namespace PhoneBook
 
                         int.TryParse(phoneNumberString, out phoneNumber);
 
-                        if (!CorrectPhoneNumber(phoneNumber))
-                        {
-                            break;
-                        }
+                        if (!phoneBook.CorrectPhoneNumber(phoneNumber)) break;
 
                         phoneBook.GetPersonByNumber(phoneNumber);
 
@@ -114,14 +102,9 @@ namespace PhoneBook
 
                         lastName = Console.ReadLine();
 
-                        if(lastName != "")
-                        {
-                            phoneBook.GetContactsByLastName(lastName);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Type last name...");
-                        }
+                        if (lastName == "") break;
+
+                        phoneBook.GetContactsByLastName(lastName);
 
                         break;
 
@@ -133,10 +116,7 @@ namespace PhoneBook
 
                         int.TryParse(phoneNumberString, out phoneNumber);
 
-                        if (!CorrectPhoneNumber(phoneNumber))
-                        {
-                            break;
-                        }
+                        if (!phoneBook.CorrectPhoneNumber(phoneNumber)) break;
 
                         phoneBook.DeleteContactBasedOnPhoneNumber(phoneNumber);
 
@@ -151,23 +131,6 @@ namespace PhoneBook
                         break;
                 }
             }            
-        }
-
-        private static bool CorrectPhoneNumber(int phoneNumber)
-        {
-            if (phoneNumber == 0)
-            {
-                Console.WriteLine("Phone number need to be a number higher or equal 100 000 000 and lower or equal to 999 999 999...");
-                return false;
-            }
-
-            if (phoneNumber < 100000000 || phoneNumber > 999999999)
-            {
-                Console.WriteLine("Phone number must be between 100 000 000 and 999 999 999");
-                return false;
-            }
-
-            return true;
         }
     }
 }
